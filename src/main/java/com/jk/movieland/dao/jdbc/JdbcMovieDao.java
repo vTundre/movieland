@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public class JdbcMovieDao implements MovieDao {
     private final static String SQL_SELECT_ALL_MOVIES = "SELECT movie_id, movie_name_russian, movie_name_native, movie_year_of_release, movie_rating, movie_price FROM movie";
+    private final static String SQL_SELECT_RANDOM = "SELECT movie_id, movie_name_russian, movie_name_native, movie_year_of_release, movie_rating, movie_price FROM movie ORDER BY random() LIMIT ?";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final RowMapper<Movie> movieRowMapper = new MovieRowMapper();
@@ -28,6 +29,15 @@ public class JdbcMovieDao implements MovieDao {
         long startTime = System.currentTimeMillis();
         List<Movie> movies = jdbcTemplate.query(SQL_SELECT_ALL_MOVIES, movieRowMapper);
         log.debug("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        return movies;
+    }
+
+    @Override
+    public List<Movie> findRandom(int count) {
+        log.debug("Start query to get {} random movies from DB", count);
+        long startTime = System.currentTimeMillis();
+        List<Movie> movies = jdbcTemplate.query(SQL_SELECT_RANDOM, movieRowMapper, count);
+        log.debug("Finish query to get {} random movies from DB. It took {} ms", count, System.currentTimeMillis() - startTime);
         return movies;
     }
 

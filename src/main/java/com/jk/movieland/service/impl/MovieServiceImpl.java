@@ -4,12 +4,17 @@ import com.jk.movieland.dao.MovieDao;
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MovieServiceImpl implements MovieService {
+
+    @Value("${random.movies.count}")
+    private Integer randomMoviesCount;
+
     @Autowired
     private MovieDao movieDao;
 
@@ -18,4 +23,10 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieDao.findAll();
         return movies;
     }
+
+    @Override
+    public List<Movie> findRandom() {
+        return movieDao.findRandom(randomMoviesCount);
+    }
+
 }
