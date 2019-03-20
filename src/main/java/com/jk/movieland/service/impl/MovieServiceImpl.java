@@ -13,7 +13,7 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     @Value("${random.movies.count}")
-    private Integer randomMoviesCount;
+    private int randomMoviesCount;
 
     @Autowired
     private MovieDao movieDao;
@@ -29,4 +29,9 @@ public class MovieServiceImpl implements MovieService {
         return movieDao.findRandom(randomMoviesCount);
     }
 
+    @Override
+    public List<Movie> findByGenreId(int genreId) {
+        List<Movie> movies = movieDao.findByGenreId(genreId);
+        return movies;
+    }
 }
