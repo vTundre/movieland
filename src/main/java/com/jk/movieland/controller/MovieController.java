@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +39,15 @@ public class MovieController {
         log.debug("Sending request to get random movies");
         long startTime = System.currentTimeMillis();
         List<Movie> movies = movieService.findRandom();
+        log.debug("Movies are received. It took {} ms", System.currentTimeMillis() - startTime);
+        return movies;
+    }
+
+    @GetMapping(path = "genre/{genreId}")
+    public List<Movie> getMoviesByGenre(@PathVariable int genreId) {
+        log.debug("Sending request to get movies by genre");
+        long startTime = System.currentTimeMillis();
+        List<Movie> movies = movieService.findByGenreId(genreId);
         log.debug("Movies are received. It took {} ms", System.currentTimeMillis() - startTime);
         return movies;
     }

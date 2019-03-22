@@ -94,4 +94,25 @@ public class MovieControllerTest {
                 .andExpect(jsonPath("$[1].rating", is(1.0)))
                 .andExpect(jsonPath("$[1].price", is(1.0)));
     }
+
+    @Test
+    public void testGetByGenreId() throws Exception {
+        String uri = "/movie/genre/1";
+        when(movieService.findByGenreId(1)).thenReturn(movies);
+        mockMvc.perform(MockMvcRequestBuilders.get(uri)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].nameRussian", is("Сияние")))
+                .andExpect(jsonPath("$[0].nameNative", is("Shining")))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1990")))
+                .andExpect(jsonPath("$[0].rating", is(3.2)))
+                .andExpect(jsonPath("$[0].price", is(120233.333)))
+                .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].nameRussian", is("Два")))
+                .andExpect(jsonPath("$[1].nameNative", is("Second")))
+                .andExpect(jsonPath("$[1].yearOfRelease", is("2222")))
+                .andExpect(jsonPath("$[1].rating", is(1.0)))
+                .andExpect(jsonPath("$[1].price", is(1.0)));
+    }
 }
