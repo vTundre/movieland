@@ -1,7 +1,7 @@
 db:
   url: jdbc:h2:mem:testDB;MODE=PostgreSQL;INIT=RUNSCRIPT FROM 'classpath:/db/create_objects.sql'\;RUNSCRIPT FROM 'classpath:/db/1_dictionaries.sql'\;RUNSCRIPT FROM 'classpath:/db/2_movie.sql'
-  user: db.password = test
-  password: db.password = test
+  user: test
+  password: test
 
 cash:
   genreRefresh: 14400000
