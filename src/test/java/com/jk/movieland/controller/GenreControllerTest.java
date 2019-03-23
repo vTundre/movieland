@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:spring/root-context.xml"})
+@ContextConfiguration(locations = {"classpath:test-context.xml"})
 public class GenreControllerTest {
     private MockMvc mockMvc;
     private GenreService genreService = mock(GenreService.class);
