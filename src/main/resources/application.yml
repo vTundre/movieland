@@ -1,0 +1,10 @@
+db:
+  url: jdbc:postgresql://localhost:5432/postgres
+  user: postgres
+  password: 123
+
+cash:
+  genreRefresh: 14400000
+
+movie:
+  randomCount: 3
