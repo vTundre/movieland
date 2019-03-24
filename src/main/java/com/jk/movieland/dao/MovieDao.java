@@ -11,4 +11,6 @@ public interface MovieDao {
     List<Movie> findRandom(int count);
 
     List<Movie> findByGenreId(int genreId, RequestParameters requestParameters);
+
+    Movie findById(int movieId);
 }

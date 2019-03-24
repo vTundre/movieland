@@ -26,8 +26,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAll(RequestParameters requestParameters) {
-        List<Movie> movies = movieDao.findAll(requestParameters);
-        return movies;
+        return movieDao.findAll(requestParameters);
     }
 
     @Override
@@ -42,7 +41,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findByGenreId(int genreId, RequestParameters requestParameters) {
-        List<Movie> movies = movieDao.findByGenreId(genreId, requestParameters);
-        return movies;
+        return movieDao.findByGenreId(genreId, requestParameters);
+    }
+
+    @Override
+    public Movie findById(int movieId) {
+        return movieDao.findById(movieId);
     }
 }

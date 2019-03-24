@@ -92,4 +92,19 @@ public class MovieControllerITest {
                 .andExpect(jsonPath("$[0].rating", is(8.6)))
                 .andExpect(jsonPath("$[0].price", is(200.60)));
     }
+
+    @Test
+    public void testGetMovieById() throws Exception {
+        String uri = "/movie/2";
+        mockMvc.perform(MockMvcRequestBuilders.get(uri)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", is(2)))
+                .andExpect(jsonPath("nameRussian", is("Зеленая миля")))
+                .andExpect(jsonPath("nameNative", is("The Green Mile")))
+                .andExpect(jsonPath("yearOfRelease", is("1999")))
+                .andExpect(jsonPath("description", is("Обвиненный в страшном преступлении, Джон Коффи оказывается в блоке смертников тюрьмы «Холодная гора». Вновь прибывший обладал поразительным ростом и был пугающе спокоен, что, впрочем, никак не влияло на отношение к нему начальника блока Пола Эджкомба, привыкшего исполнять приговор.")))
+                .andExpect(jsonPath("rating", is(9.0)))
+                .andExpect(jsonPath("price", is(134.67)));
+    }
 }

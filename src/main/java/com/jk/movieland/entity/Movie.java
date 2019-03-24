@@ -1,14 +1,14 @@
 package com.jk.movieland.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class Movie {
     private int id;
     private String nameRussian;
     private String nameNative;
-    @JsonIgnore
-    private String description;
     private String yearOfRelease;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String description;
     private double rating;
     private double price;
 

@@ -2,6 +2,7 @@ package com.jk.movieland.dao.jdbc;
 
 import com.jk.movieland.dao.MovieDao;
 import com.jk.movieland.dao.jdbc.mapper.MovieRowMapper;
+import com.jk.movieland.dao.jdbc.mapper.MovieRowMapperFull;
 import com.jk.movieland.dao.jdbc.utils.QueryBuilder;
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.utils.RequestParameters;
@@ -21,12 +22,20 @@ public class JdbcMovieDao implements MovieDao {
     private final static String SQL_SELECT_MOVIES_BY_GENRE_ID =
             "SELECT m.movie_id, m.movie_name_russian, m.movie_name_native, m.movie_year_of_release, m.movie_rating, m.movie_price " +
                     "FROM movie m, movie_genre mg where m.movie_id = mg.movie_id and mg.genre_id = ?";
-    private final static RowMapper<Movie> MOVIE_ROW_MAPPER = new MovieRowMapper();
+    private final static String SQL_SELECT_MOVIE_BY_ID =
+            "SELECT m.movie_id, m.movie_name_russian, m.movie_name_native, m.movie_year_of_release, m.movie_description, m.movie_rating, m.movie_price " +
+                    "FROM movie m where m.movie_id = ?";
 
+    private final static RowMapper<Movie> MOVIE_ROW_MAPPER = new MovieRowMapper();
+    private final static RowMapper<Movie> MOVIE_ROW_MAPPER_FULL = new MovieRowMapperFull();
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public JdbcMovieDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Movie> findAll(RequestParameters requestParameters) {
@@ -56,5 +65,14 @@ public class JdbcMovieDao implements MovieDao {
         log.debug("Finish query to get movies by genreId {} from DB. It took {} ms", genreId, System.currentTimeMillis() - startTime);
         return movies;
     }
+
+    @Override
+    public Movie findById(int movieId) {
+        long startTime = System.currentTimeMillis();
+        Movie movie = jdbcTemplate.queryForObject(SQL_SELECT_MOVIE_BY_ID, MOVIE_ROW_MAPPER_FULL, movieId);
+        log.debug("Finish query to get movie by Id {} from DB. It took {} ms", movieId, System.currentTimeMillis() - startTime);
+        return movie;
+    }
+
 
 }

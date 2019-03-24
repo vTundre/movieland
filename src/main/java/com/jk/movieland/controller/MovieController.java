@@ -51,4 +51,10 @@ public class MovieController {
         RequestParameters requestParameters = new RequestParameters(ratingOrder, priceOrder);
         return movieService.findByGenreId(genreId, requestParameters);
     }
+
+    @GetMapping(path = "{movieId}")
+    public Movie getMovieById(@PathVariable int movieId){
+        log.debug("Sending request to get movie by Id {}", movieId);
+        return movieService.findById(movieId);
+    }
 }

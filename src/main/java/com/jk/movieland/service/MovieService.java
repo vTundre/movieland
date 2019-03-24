@@ -16,4 +16,6 @@ public interface MovieService {
     List<Movie> findByGenreId(int GenreId);
 
     List<Movie> findByGenreId(int GenreId, RequestParameters requestParameters);
+
+    Movie findById(int movieId);
 }
