@@ -29,6 +29,15 @@ public class JdbcMovieDao implements MovieDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    public List<Movie> findAll() {
+        log.debug("Start query to get all movies from DB");
+        long startTime = System.currentTimeMillis();
+        List<Movie> movies = jdbcTemplate.query(SQL_SELECT_ALL_MOVIES, MOVIE_ROW_MAPPER);
+        log.debug("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        return movies;
+    }
+
+    @Override
     public List<Movie> findAll(RequestParameters requestParameters) {
         log.debug("Start query to get all movies from DB");
         long startTime = System.currentTimeMillis();
@@ -44,6 +53,15 @@ public class JdbcMovieDao implements MovieDao {
         long startTime = System.currentTimeMillis();
         List<Movie> movies = jdbcTemplate.query(SQL_SELECT_RANDOM, MOVIE_ROW_MAPPER, count);
         log.debug("Finish query to get {} random movies from DB. It took {} ms", count, System.currentTimeMillis() - startTime);
+        return movies;
+    }
+
+    @Override
+    public List<Movie> findByGenreId(int genreId) {
+        log.debug("Start query to get movies by genreId {} from DB", genreId);
+        long startTime = System.currentTimeMillis();
+        List<Movie> movies = jdbcTemplate.query(SQL_SELECT_MOVIES_BY_GENRE_ID, MOVIE_ROW_MAPPER, genreId);
+        log.debug("Finish query to get movies by genreId {} from DB. It took {} ms", genreId, System.currentTimeMillis() - startTime);
         return movies;
     }
 

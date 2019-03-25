@@ -1,22 +1,21 @@
 package com.jk.movieland.utils;
 
-import java.security.InvalidParameterException;
 import java.util.Objects;
 
 public class RequestParameters {
     private SortColumn sortColumnName;
     private SortDirection sortDirection;
 
-    public RequestParameters(String ratingOrder, String priceOrder) {
-        if (SortDirection.desc.name().equals(ratingOrder)) {
-            sortColumnName = SortColumn.movie_rating;
-            sortDirection = SortDirection.desc;
+    public RequestParameters(SortDirection ratingOrder, SortDirection priceOrder) {
+        if (ratingOrder != null && SortDirection.DESC.equals(ratingOrder)) {
+            sortColumnName = SortColumn.MOVIE_RATING;
+            sortDirection = ratingOrder;
         } else if (priceOrder != null) {
-            sortColumnName = SortColumn.movie_price;
-            sortDirection = SortDirection.getSortDirection(priceOrder);
+            sortColumnName = SortColumn.MOVIE_PRICE;
+            sortDirection = priceOrder;
         }
         else {
-            throw new InvalidParameterException("Wrong parameters");
+            throw new IllegalArgumentException("Wrong parameters");
         }
     }
 
@@ -38,20 +37,7 @@ public class RequestParameters {
     }
 
     private enum SortColumn {
-        movie_rating,
-        movie_price
-    }
-
-    private enum SortDirection {
-        asc,
-        desc;
-
-        public static SortDirection getSortDirection(String s) {
-            for (SortDirection sortDirection : values())
-                if (sortDirection.name().equals(s)) {
-                    return sortDirection;
-                }
-           throw new InvalidParameterException("Incorrect sorting direction");
-        }
+        MOVIE_RATING,
+        MOVIE_PRICE
     }
 }
