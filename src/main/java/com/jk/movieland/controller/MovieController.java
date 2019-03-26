@@ -2,14 +2,15 @@ package com.jk.movieland.controller;
 
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.service.MovieService;
+import com.jk.movieland.utils.RequestParameters;
+import com.jk.movieland.utils.SortDirection;
+import com.jk.movieland.utils.SortDirectionConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,29 +27,36 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies() {
-        log.debug("Sending request to get all movies");
-        long startTime = System.currentTimeMillis();
-        List<Movie> movies = movieService.findAll();
-        log.debug("Movies are received. It took {} ms", System.currentTimeMillis() - startTime);
-        return movies;
+    public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) SortDirection ratingOrder,
+                                    @RequestParam(name = "price", required = false) SortDirection priceOrder) {
+        log.debug("Sending request to get all movies. Order by {}, {}", ratingOrder, priceOrder);
+        if (ratingOrder == null && priceOrder == null) {
+            return movieService.findAll();
+        }
+        RequestParameters requestParameters = new RequestParameters(ratingOrder, priceOrder);
+        return movieService.findAll(requestParameters);
     }
 
     @GetMapping(path = "random")
     public List<Movie> getRandomMovies() {
         log.debug("Sending request to get random movies");
-        long startTime = System.currentTimeMillis();
-        List<Movie> movies = movieService.findRandom();
-        log.debug("Movies are received. It took {} ms", System.currentTimeMillis() - startTime);
-        return movies;
+        return movieService.findRandom();
     }
 
     @GetMapping(path = "genre/{genreId}")
-    public List<Movie> getMoviesByGenre(@PathVariable int genreId) {
-        log.debug("Sending request to get movies by genre");
-        long startTime = System.currentTimeMillis();
-        List<Movie> movies = movieService.findByGenreId(genreId);
-        log.debug("Movies are received. It took {} ms", System.currentTimeMillis() - startTime);
-        return movies;
+    public List<Movie> getMoviesByGenre(@PathVariable int genreId,
+                                        @RequestParam(name = "rating", required = false) SortDirection ratingOrder,
+                                        @RequestParam(name = "price", required = false) SortDirection priceOrder) {
+        log.debug("Sending request to get movies by genre. Order by {}, {}", ratingOrder, priceOrder);
+        if (ratingOrder == null && priceOrder == null) {
+            return movieService.findByGenreId(genreId);
+        }
+        RequestParameters requestParameters = new RequestParameters(ratingOrder, priceOrder);
+        return movieService.findByGenreId(genreId, requestParameters);
+    }
+
+    @InitBinder
+    public void initBinder(final WebDataBinder webdataBinder) {
+        webdataBinder.registerCustomEditor(SortDirection.class, new SortDirectionConverter());
     }
 }

@@ -3,6 +3,7 @@ package com.jk.movieland.service.impl;
 import com.jk.movieland.dao.MovieDao;
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.service.MovieService;
+import com.jk.movieland.utils.RequestParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAll() {
-        List<Movie> movies = movieDao.findAll();
+        return movieDao.findAll();
+    }
+
+    @Override
+    public List<Movie> findAll(RequestParameters requestParameters) {
+        List<Movie> movies = movieDao.findAll(requestParameters);
         return movies;
     }
 
@@ -31,7 +37,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findByGenreId(int genreId) {
-        List<Movie> movies = movieDao.findByGenreId(genreId);
+        return movieDao.findByGenreId(genreId);
+    }
+
+    @Override
+    public List<Movie> findByGenreId(int genreId, RequestParameters requestParameters) {
+        List<Movie> movies = movieDao.findByGenreId(genreId, requestParameters);
         return movies;
     }
 }
