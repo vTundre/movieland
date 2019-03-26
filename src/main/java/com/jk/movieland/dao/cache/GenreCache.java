@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import javax.annotation.PostConstruct;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Primary
-public class GenreCache implements GenreDao{
+public class GenreCache implements GenreDao {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private GenreDao genreDao;
     private volatile List<Genre> cachedGenres;
@@ -24,8 +25,9 @@ public class GenreCache implements GenreDao{
         this.genreDao = genreDao;
     }
 
-    @Scheduled(fixedDelayString  = "${cash.genreRefresh}")
-    public void refreshCache() {
+    @PostConstruct
+    @Scheduled(fixedDelayString = "${cache.genreRefresh}", initialDelayString = "${cache.genreRefresh}")
+    public void refreshCache() throws InterruptedException {
         log.debug("-------------CACHE REFRESH");
         cachedGenres = genreDao.findAll();
     }

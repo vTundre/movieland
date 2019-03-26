@@ -3,7 +3,7 @@ db:
   user: test
   password: test
 
-cash:
+cache:
   genreRefresh: 14400000
 
 movie:

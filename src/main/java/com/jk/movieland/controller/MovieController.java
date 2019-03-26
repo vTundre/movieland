@@ -3,10 +3,13 @@ package com.jk.movieland.controller;
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.service.MovieService;
 import com.jk.movieland.utils.RequestParameters;
+import com.jk.movieland.utils.SortDirection;
+import com.jk.movieland.utils.SortDirectionConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +27,8 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) String ratingOrder,
-                                    @RequestParam(name = "price", required = false) String priceOrder) {
+    public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) SortDirection ratingOrder,
+                                    @RequestParam(name = "price", required = false) SortDirection priceOrder) {
         log.debug("Sending request to get all movies. Order by {}, {}", ratingOrder, priceOrder);
         if (ratingOrder == null && priceOrder == null) {
             return movieService.findAll();
@@ -42,8 +45,8 @@ public class MovieController {
 
     @GetMapping(path = "genre/{genreId}")
     public List<Movie> getMoviesByGenre(@PathVariable int genreId,
-                                        @RequestParam(name = "rating", required = false) String ratingOrder,
-                                        @RequestParam(name = "price", required = false) String priceOrder) {
+                                        @RequestParam(name = "rating", required = false) SortDirection ratingOrder,
+                                        @RequestParam(name = "price", required = false) SortDirection priceOrder) {
         log.debug("Sending request to get movies by genre. Order by {}, {}", ratingOrder, priceOrder);
         if (ratingOrder == null && priceOrder == null) {
             return movieService.findByGenreId(genreId);
@@ -56,5 +59,10 @@ public class MovieController {
     public Movie getMovieById(@PathVariable int movieId){
         log.debug("Sending request to get movie by Id {}", movieId);
         return movieService.findById(movieId);
+    }
+
+    @InitBinder
+    public void initBinder(final WebDataBinder webdataBinder) {
+        webdataBinder.registerCustomEditor(SortDirection.class, new SortDirectionConverter());
     }
 }

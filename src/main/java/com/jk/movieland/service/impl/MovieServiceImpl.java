@@ -21,7 +21,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAll() {
-        return findAll(null);
+        return movieDao.findAll();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findByGenreId(int genreId) {
-        return findByGenreId(genreId, null);
+        return movieDao.findByGenreId(genreId);
     }
 
     @Override
