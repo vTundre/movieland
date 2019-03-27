@@ -17,13 +17,13 @@ import java.util.List;
 
 @Repository
 public class JdbcMovieDao implements MovieDao {
-    private final static String SQL_SELECT_ALL_MOVIES = "SELECT movie_id, movie_name_russian, movie_name_native, movie_year_of_release, movie_rating, movie_price FROM movie";
-    private final static String SQL_SELECT_RANDOM = "SELECT movie_id, movie_name_russian, movie_name_native, movie_year_of_release, movie_rating, movie_price FROM movie ORDER BY random() LIMIT ?";
+    private final static String SQL_SELECT_ALL_MOVIES = "SELECT movie_id, movie_name_russian, movie_name_native, movie_year_of_release, movie_rating, movie_price, poster_url FROM movie";
+    private final static String SQL_SELECT_RANDOM = "SELECT movie_id, movie_name_russian, movie_name_native, movie_year_of_release, movie_rating, movie_price, poster_url FROM movie ORDER BY random() LIMIT ?";
     private final static String SQL_SELECT_MOVIES_BY_GENRE_ID =
-            "SELECT m.movie_id, m.movie_name_russian, m.movie_name_native, m.movie_year_of_release, m.movie_rating, m.movie_price " +
+            "SELECT m.movie_id, m.movie_name_russian, m.movie_name_native, m.movie_year_of_release, m.movie_rating, m.movie_price, m.poster_url " +
                     "FROM movie m, movie_genre mg where m.movie_id = mg.movie_id and mg.genre_id = ?";
     private final static String SQL_SELECT_MOVIE_BY_ID =
-            "SELECT m.movie_id, m.movie_name_russian, m.movie_name_native, m.movie_year_of_release, m.movie_description, m.movie_rating, m.movie_price " +
+            "SELECT m.movie_id, m.movie_name_russian, m.movie_name_native, m.movie_year_of_release, m.movie_description, m.movie_rating, m.movie_price, m.poster_url " +
                     "FROM movie m where m.movie_id = ?";
 
     private final static RowMapper<Movie> MOVIE_ROW_MAPPER = new MovieRowMapper();

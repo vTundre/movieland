@@ -1,6 +1,9 @@
 package com.jk.movieland.service.impl;
 
+import com.jk.movieland.dao.CountryDao;
+import com.jk.movieland.dao.GenreDao;
 import com.jk.movieland.dao.MovieDao;
+import com.jk.movieland.dao.ReviewDao;
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.service.MovieService;
 import com.jk.movieland.utils.RequestParameters;
@@ -16,8 +19,18 @@ public class MovieServiceImpl implements MovieService {
     @Value("${movie.randomCount}")
     private int randomMoviesCount;
 
-    @Autowired
     private MovieDao movieDao;
+    private CountryDao countryDao;
+    private GenreDao genreDao;
+    private ReviewDao reviewDao;
+
+    @Autowired
+    public MovieServiceImpl(MovieDao movieDao, CountryDao countryDao, GenreDao genreDao, ReviewDao reviewDao) {
+        this.movieDao = movieDao;
+        this.countryDao = countryDao;
+        this.genreDao = genreDao;
+        this.reviewDao = reviewDao;
+    }
 
     @Override
     public List<Movie> findAll() {
@@ -46,6 +59,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie findById(int movieId) {
-        return movieDao.findById(movieId);
+        Movie movie = movieDao.findById(movieId);
+        movie.setCountries(countryDao.findByMovieId(movieId));
+        movie.setGenres(genreDao.findByMovieId(movieId));
+        movie.setReviews(reviewDao.findByMovieId(movieId));
+        return movie;
     }
 }

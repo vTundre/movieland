@@ -3,7 +3,7 @@ package com.jk.movieland.entity;
 import lombok.Data;
 
 @Data
-public class Genre {
+public class User {
     private int id;
-    private String name;
+    private String nickname;
 }

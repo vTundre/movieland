@@ -105,6 +105,19 @@ public class MovieControllerITest {
                 .andExpect(jsonPath("yearOfRelease", is("1999")))
                 .andExpect(jsonPath("description", is("Обвиненный в страшном преступлении, Джон Коффи оказывается в блоке смертников тюрьмы «Холодная гора». Вновь прибывший обладал поразительным ростом и был пугающе спокоен, что, впрочем, никак не влияло на отношение к нему начальника блока Пола Эджкомба, привыкшего исполнять приговор.")))
                 .andExpect(jsonPath("rating", is(9.0)))
-                .andExpect(jsonPath("price", is(134.67)));
+                .andExpect(jsonPath("price", is(134.67)))
+                .andExpect(jsonPath("$.countries", hasSize(1)))
+                .andExpect(jsonPath("$.countries[0].id", is(4)))
+                .andExpect(jsonPath("$.countries[0].name", is("США")))
+
+                .andExpect(jsonPath("$.genres", hasSize(2)))
+                .andExpect(jsonPath("$.genres[0].id", is(1)))
+                .andExpect(jsonPath("$.genres[0].name", is("драма")))
+                .andExpect(jsonPath("$.genres[1].id", is(3)))
+                .andExpect(jsonPath("$.genres[1].name", is("фэнтези")))
+
+                .andExpect(jsonPath("$.reviews", hasSize(1)))
+                .andExpect(jsonPath("$.reviews[0].id", is(3)))
+                .andExpect(jsonPath("$.reviews[0].text", is("ревью")));
     }
 }

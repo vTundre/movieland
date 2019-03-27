@@ -9,14 +9,9 @@ import java.sql.SQLException;
 public class MovieRowMapperFull implements RowMapper<Movie> {
     @Override
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
-        Movie movie = new Movie();
-        movie.setId(resultSet.getInt("movie_id"));
-        movie.setNameRussian(resultSet.getString("movie_name_russian"));
-        movie.setNameNative(resultSet.getString("movie_name_native"));
-        movie.setYearOfRelease(resultSet.getString("movie_year_of_release"));
+        MovieRowMapper movieRowMapper = new MovieRowMapper();
+        Movie movie = movieRowMapper.mapRow(resultSet, i);
         movie.setDescription(resultSet.getString("movie_description"));
-        movie.setRating(resultSet.getDouble("movie_rating"));
-        movie.setPrice(resultSet.getDouble("movie_price"));
         return movie;
     }
 }

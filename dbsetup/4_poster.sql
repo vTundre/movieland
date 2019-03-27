@@ -77,9 +77,10 @@ insert into temp_poster values(
 insert into temp_poster values(
 'Танцующий с волками', 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTY3OTI5NDczN15BMl5BanBnXkFtZTcwNDA0NDY3Mw@@._V1._SX140_CR0,0,140,209_.jpg');
 
-insert into poster(movie_id, poster_link)
-select m.movie_id, t.poster_link
-  from temp_poster t, movie m
- where t.movie_name_russian = m.movie_name_russian;
+
+update movie um
+   set poster_url = (select t.poster_link
+                       from temp_poster t, movie m
+                      where t.movie_name_russian = m.movie_name_russian and m.movie_id = um.movie_id);
 
 drop table temp_poster;
