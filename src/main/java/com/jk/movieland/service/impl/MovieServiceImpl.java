@@ -1,11 +1,11 @@
 package com.jk.movieland.service.impl;
 
-import com.jk.movieland.dao.CountryDao;
-import com.jk.movieland.dao.GenreDao;
 import com.jk.movieland.dao.MovieDao;
-import com.jk.movieland.dao.ReviewDao;
 import com.jk.movieland.entity.Movie;
+import com.jk.movieland.service.CountryService;
+import com.jk.movieland.service.GenreService;
 import com.jk.movieland.service.MovieService;
+import com.jk.movieland.service.ReviewService;
 import com.jk.movieland.utils.RequestParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,16 +20,16 @@ public class MovieServiceImpl implements MovieService {
     private int randomMoviesCount;
 
     private MovieDao movieDao;
-    private CountryDao countryDao;
-    private GenreDao genreDao;
-    private ReviewDao reviewDao;
+    private CountryService countryService;
+    private GenreService genreService;
+    private ReviewService reviewService;
 
     @Autowired
-    public MovieServiceImpl(MovieDao movieDao, CountryDao countryDao, GenreDao genreDao, ReviewDao reviewDao) {
+    public MovieServiceImpl(MovieDao movieDao, CountryService countryService, GenreService genreService, ReviewService reviewService) {
         this.movieDao = movieDao;
-        this.countryDao = countryDao;
-        this.genreDao = genreDao;
-        this.reviewDao = reviewDao;
+        this.countryService = countryService;
+        this.genreService = genreService;
+        this.reviewService = reviewService;
     }
 
     @Override
@@ -60,9 +60,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(int movieId) {
         Movie movie = movieDao.findById(movieId);
-        movie.setCountries(countryDao.findByMovieId(movieId));
-        movie.setGenres(genreDao.findByMovieId(movieId));
-        movie.setReviews(reviewDao.findByMovieId(movieId));
+        movie.setCountries(countryService.findByMovieId(movieId));
+        movie.setGenres(genreService.findByMovieId(movieId));
+        movie.setReviews(reviewService.findByMovieId(movieId));
         return movie;
     }
 }
