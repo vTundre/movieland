@@ -15,4 +15,6 @@ public interface MovieDao {
     List<Movie> findByGenreId(int genreId);
 
     List<Movie> findByGenreId(int genreId, RequestParameters requestParameters);
+
+    Movie findById(int movieId);
 }

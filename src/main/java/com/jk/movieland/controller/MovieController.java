@@ -1,10 +1,12 @@
 package com.jk.movieland.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.service.MovieService;
 import com.jk.movieland.utils.RequestParameters;
 import com.jk.movieland.utils.SortDirection;
 import com.jk.movieland.utils.SortDirectionConverter;
+import com.jk.movieland.view.Views;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    @JsonView(Views.MovieShort.class)
     @GetMapping
     public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) SortDirection ratingOrder,
                                     @RequestParam(name = "price", required = false) SortDirection priceOrder) {
@@ -37,12 +40,14 @@ public class MovieController {
         return movieService.findAll(requestParameters);
     }
 
+    @JsonView(Views.MovieShort.class)
     @GetMapping(path = "random")
     public List<Movie> getRandomMovies() {
         log.debug("Sending request to get random movies");
         return movieService.findRandom();
     }
 
+    @JsonView(Views.MovieShort.class)
     @GetMapping(path = "genre/{genreId}")
     public List<Movie> getMoviesByGenre(@PathVariable int genreId,
                                         @RequestParam(name = "rating", required = false) SortDirection ratingOrder,
@@ -53,6 +58,12 @@ public class MovieController {
         }
         RequestParameters requestParameters = new RequestParameters(ratingOrder, priceOrder);
         return movieService.findByGenreId(genreId, requestParameters);
+    }
+
+    @GetMapping(path = "{movieId}")
+    public Movie getMovieById(@PathVariable int movieId) {
+        log.debug("Sending request to get movie by Id {}", movieId);
+        return movieService.findById(movieId);
     }
 
     @InitBinder

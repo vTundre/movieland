@@ -1,6 +1,5 @@
-package com.jk.movieland.dao.jdbc;
+package com.jk.movieland.dao.jdbc.mapper;
 
-import com.jk.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.jk.movieland.entity.Movie;
 import org.junit.Test;
 
@@ -13,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 public class MovieRowMapperTest {
     @Test
-    public void testMapRowWithProperMovie() throws SQLException {
+    public void testMapRow() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
 
         when(resultSet.getInt("movie_id")).thenReturn(1);
@@ -25,11 +24,11 @@ public class MovieRowMapperTest {
 
         MovieRowMapper movieRowMapper = new MovieRowMapper();
         Movie actualMovie = movieRowMapper.mapRow(resultSet, 0);
-        assertEquals(actualMovie.getId(), 1);
-        assertEquals(actualMovie.getNameRussian(), "Сияние");
-        assertEquals(actualMovie.getNameNative(), "Shining");
-        assertEquals(actualMovie.getYearOfRelease(), "1990");
-        assertEquals(actualMovie.getRating(), 3.2, 0);
-        assertEquals(actualMovie.getPrice(), 120233.333, 0);
+        assertEquals(1, actualMovie.getId());
+        assertEquals("Сияние", actualMovie.getNameRussian());
+        assertEquals("Shining", actualMovie.getNameNative());
+        assertEquals("1990", actualMovie.getYearOfRelease());
+        assertEquals(3.2, actualMovie.getRating(), 0);
+        assertEquals(120233.333, actualMovie.getPrice(), 0);
     }
 }

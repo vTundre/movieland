@@ -2,7 +2,10 @@ package com.jk.movieland.service.impl;
 
 import com.jk.movieland.dao.MovieDao;
 import com.jk.movieland.entity.Movie;
+import com.jk.movieland.service.CountryService;
+import com.jk.movieland.service.GenreService;
 import com.jk.movieland.service.MovieService;
+import com.jk.movieland.service.ReviewService;
 import com.jk.movieland.utils.RequestParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +19,18 @@ public class MovieServiceImpl implements MovieService {
     @Value("${movie.randomCount}")
     private int randomMoviesCount;
 
-    @Autowired
     private MovieDao movieDao;
+    private CountryService countryService;
+    private GenreService genreService;
+    private ReviewService reviewService;
+
+    @Autowired
+    public MovieServiceImpl(MovieDao movieDao, CountryService countryService, GenreService genreService, ReviewService reviewService) {
+        this.movieDao = movieDao;
+        this.countryService = countryService;
+        this.genreService = genreService;
+        this.reviewService = reviewService;
+    }
 
     @Override
     public List<Movie> findAll() {
@@ -26,8 +39,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findAll(RequestParameters requestParameters) {
-        List<Movie> movies = movieDao.findAll(requestParameters);
-        return movies;
+        return movieDao.findAll(requestParameters);
     }
 
     @Override
@@ -42,7 +54,15 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> findByGenreId(int genreId, RequestParameters requestParameters) {
-        List<Movie> movies = movieDao.findByGenreId(genreId, requestParameters);
-        return movies;
+        return movieDao.findByGenreId(genreId, requestParameters);
+    }
+
+    @Override
+    public Movie findById(int movieId) {
+        Movie movie = movieDao.findById(movieId);
+        movie.setCountries(countryService.findByMovieId(movieId));
+        movie.setGenres(genreService.findByMovieId(movieId));
+        movie.setReviews(reviewService.findByMovieId(movieId));
+        return movie;
     }
 }

@@ -1,6 +1,5 @@
-package com.jk.movieland.dao.jdbc;
+package com.jk.movieland.dao.jdbc.mapper;
 
-import com.jk.movieland.dao.jdbc.mapper.GenreRowMapper;
 import com.jk.movieland.entity.Genre;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class GenreRowMapperTest {
 
         GenreRowMapper genreRowMapper = new GenreRowMapper();
         Genre actualGenre = genreRowMapper.mapRow(resultSet, 0);
-        assertEquals(actualGenre.getId(), 1);
-        assertEquals(actualGenre.getName(), "Ужасы");
+        assertEquals(1, actualGenre.getId());
+        assertEquals("Ужасы", actualGenre.getName());
     }
 }

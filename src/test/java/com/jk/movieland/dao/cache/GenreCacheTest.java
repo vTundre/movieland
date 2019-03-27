@@ -1,4 +1,4 @@
-package com.jk.movieland.dao.jdbc.cache;
+package com.jk.movieland.dao.cache;
 
 import com.jk.movieland.dao.GenreDao;
 import com.jk.movieland.dao.cache.GenreCache;

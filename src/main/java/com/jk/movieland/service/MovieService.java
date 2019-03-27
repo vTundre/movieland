@@ -1,6 +1,5 @@
 package com.jk.movieland.service;
 
-
 import com.jk.movieland.entity.Movie;
 import com.jk.movieland.utils.RequestParameters;
 
@@ -16,4 +15,6 @@ public interface MovieService {
     List<Movie> findByGenreId(int GenreId);
 
     List<Movie> findByGenreId(int GenreId, RequestParameters requestParameters);
+
+    Movie findById(int movieId);
 }

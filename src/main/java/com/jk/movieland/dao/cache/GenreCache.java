@@ -27,7 +27,7 @@ public class GenreCache implements GenreDao {
 
     @PostConstruct
     @Scheduled(fixedDelayString = "${cache.genreRefresh}", initialDelayString = "${cache.genreRefresh}")
-    public void refreshCache() throws InterruptedException {
+    public void refreshCache() {
         log.debug("-------------CACHE REFRESH");
         cachedGenres = genreDao.findAll();
     }
@@ -35,5 +35,10 @@ public class GenreCache implements GenreDao {
     @Override
     public List<Genre> findAll() {
         return new ArrayList<>(cachedGenres);
+    }
+
+    @Override
+    public List<Genre> findByMovieId(int movieId) {
+        return genreDao.findByMovieId(movieId);
     }
 }
